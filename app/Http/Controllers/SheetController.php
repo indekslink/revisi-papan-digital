@@ -9,10 +9,17 @@ use Illuminate\Support\Str;
 
 class SheetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sheets = Sheet::latest()->get();
-        return view('sheets.index', compact('sheets'));
+
+        $sheets = Sheet::with('item')->when($request->get('item') != '', function ($query) use ($request) {
+            $query->whereHas('item', function ($query) use ($request) {
+                $query->whereName($request->get('item'));
+            });
+        })->latest()->get();
+        // dd($sheets);
+        $items = Item::all();
+        return view('sheets.index', compact('sheets', 'items'));
     }
 
     public function create()
@@ -24,29 +31,47 @@ class SheetController extends Controller
 
     public function store(Request $request)
     {
+        $data = json_decode($request->data);
+        $content_type = $data->content_type;
 
-        $request->validate([
-            'title' => 'required',
-            'subtitle' => 'required',
-            'item_id' => ['required', function ($attr, $val, $fail) {
-                $isAvailable = Item::find($val);
-                if (!$isAvailable) {
-                    $fail('Mohon Periksa ketersediaan data yang Anda pilih');
-                }
-            }]
-        ]);
+        $sheet = new Sheet();
+        $sheet->title = $data->title;
+        $sheet->subtitle = $data->subtitle;
+        $sheet->item_id = $data->item_id;
+        $sheet->content_type = $data->content_type;
+        $sheet->slug = Str::slug($data->title);
+        $sheet->order = Sheet::count() + 1;
 
 
-        Sheet::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'subtitle' => $request->subtitle,
-            'item_id' => $request->item_id,
-            'content' => $request->content_value,
-            'order' => Sheet::count() + 1,
-            'content_type' => $request->content
-        ]);
+        if ($content_type == 'gallery') {
+            $images = $request->content_image;
+            $filesName = [];
+            foreach ($images as $file) {
+                $extension =  $file->getClientOriginalExtension();
+                $name = time() . rand() . '.' . $extension;
+                $file->move('img/', $name);
+                array_push($filesName, $name);
+            }
+            $sheet->content = json_encode($filesName);
+        } else {
+            $sheet->content = $data->content;
+        }
 
+
+        $sheet->save();
         return redirect()->route('sheets.index')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function show($slug)
+    {
+        $sheet = Sheet::whereSlug($slug)->firstOrFail();
+        return view('sheets.show', compact('sheet'));
+    }
+
+    public function edit($slug)
+    {
+        $sheet = Sheet::whereSlug($slug)->firstOrFail();
+        $items = Item::latest()->get();
+        return view('sheets.edit', compact('items', 'sheet'));
     }
 }

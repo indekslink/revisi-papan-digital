@@ -30,9 +30,17 @@
                 <h4>List Data Preview</h4>
                 <div class="text-gray-600">Berikut adalah list serta urutan data yang siap untuk di presentasikan</div>
             </div>
-            <button class="btn rounded-pill btn-lg btn-outline-primary" {{$lists->count() == 0 ? 'disabled'  :''  }}>
+
+            @if($lists->count() > 0)
+            <a href="{{route('play_content')}}" target="_blank" class="btn rounded-pill btn-lg btn-outline-primary">
+
+                <i class="fas fa-play"></i> Play Preview
+            </a>
+            @else
+            <button class="btn rounded-pill btn-lg btn-outline-primary" disabled>
                 <i class="fas fa-play"></i> Play Preview
             </button>
+            @endif
         </div>
     </div>
     <div class="card-body">

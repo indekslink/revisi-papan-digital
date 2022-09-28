@@ -35,8 +35,22 @@
 </div>
 
 @endif
-<a href="{{route('sheets.create')}}" class="mb-4 btn btn-primary">Tambah Data</a>
-<div class="row">
+<div class="mb-4">
+    <a href="{{route('sheets.create')}}" class="mr-4 btn btn-primary">Tambah Data</a>
+    <div class="btn-group">
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Filter by item
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item {{request()->get('item') ? '' : 'active'}}" href="{{route('sheets.index')}}">All</a>
+            @foreach($items as $item)
+
+            <a class="dropdown-item {{request()->get('item') == $item->slug ? 'active' : ''}}" href="{{route('sheets.index',['item'=>$item->slug])}}">{{$item->name}}</a>
+            @endforeach
+        </div>
+    </div>
+</div>
+<div class=" row">
     <div class="col-12">
         <div class="table-responsive">
 
@@ -59,8 +73,15 @@
                         <td>{{$sheet->title}}</td>
                         <td>{{$sheet->subtitle}}</td>
                         <!-- <td>{{$sheet->item->name}}</td> -->
-                        <td>
+                        <td class="text-center">
                             <a href="{{route('sheets.show',$sheet->slug)}}" class="btn btn-sm btn-info ">Detail</a>
+
+                            @if($sheet->content_type == 'advance')
+                            <a href="{{$sheet->content}}" class="btn btn-sm btn-primary" target="_blank">Preview</a>
+
+                            @else
+                            <a href="{{route('presentation.show',$sheet->slug)}}" class="btn btn-sm btn-primary" target="_blank">Preview</a>
+                            @endif
                         </td>
                     </tr>
 

@@ -17,8 +17,8 @@ class CreateSheetsTable extends Migration
             $table->id();
             $table->foreignId('item_id');
             $table->integer('order')->nullable();
-            $table->string('title');
-            $table->longText('content');
+            $table->string('title')->nullable();
+            $table->longText('content')->nullable();
             $table->timestamps();
         });
     }

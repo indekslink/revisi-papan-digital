@@ -57,7 +57,18 @@ class ItemController extends Controller
     public function destroy($slug)
     {
         $item = Item::whereSlug($slug)->firstOrFail();
+        if ($item->sheets->count() > 0) {
+            return redirect()->back()->withErrors([
+                'nama_item' => 'Data tidak dapat dihapus karena telah memiliki sheet'
+            ]);
+        }
         $item->delete();
         return redirect()->back()->with('success', 'Data berhasil dihapus');
+    }
+
+    public function show($slug)
+    {
+        $item = Item::with('sheets')->whereSlug($slug)->firstOrFail();
+        return view('items.show', compact('item'));
     }
 }

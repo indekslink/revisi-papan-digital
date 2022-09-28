@@ -15,7 +15,7 @@ class CreatePresentationsTable extends Migration
     {
         Schema::create('presentations', function (Blueprint $table) {
             $table->id();
-            $table->string('sheet_id');
+            $table->foreignId('sheet_id');
             $table->integer('order');
             $table->timestamps();
         });

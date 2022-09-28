@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Zilla+Slab&display=swap");
+:root {
+    --myFont: "Zilla Slab", serif;
+    --myFont2: "Roboto Slab", serif;
+}
+
+#parent-view {
+    /* position: fixed !important;
+    inset: 0; */
+    font-family: var(--myFont2);
+}
+
+.my-grid {
+    columns: 4;
+    column-gap: 1rem;
+}
+.my-grid img {
+    margin-bottom: 1rem;
+}

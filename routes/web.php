@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/presentation/play', [PresentationController::class, 'play_content'])->name('play_content');
+
 Route::resources([
     'items' => ItemController::class,
     'sheets' => SheetController::class,
