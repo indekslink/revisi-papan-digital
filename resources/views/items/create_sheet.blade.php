@@ -3,9 +3,9 @@
 
 @section('heading')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-dark font-weight-bold">Edit Data Sheets</h1>
+    <h1 class="h3 mb-0 text-dark font-weight-bold">Tambah Data Sheets</h1>
     <button class="btn btn-lg btn-primary" type="button" onclick="simpanData(this)">
-        Update Data
+        Simpan Data
     </button>
 </div>
 @endsection
@@ -24,30 +24,21 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 col-lg-4">
+                            <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="title">Title</label>
-                                    <input type="text" value="{{$sheet->title}}" class="form-control form-control-lg value-add" name="title" id="title">
+                                    <input type="text" class="form-control form-control-lg value-add" name="title" id="title">
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4">
+                            <div class="col-md-6 ">
                                 <div class="form-group">
                                     <label for="subtitle">Sub Title</label>
-                                    <input type="text" value="{{$sheet->subtitle}}" class="form-control form-control-lg value-add" name="subtitle" id="subtitle">
+                                    <input type="text" class="form-control form-control-lg value-add" name="subtitle" id="subtitle">
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4">
 
-                                <div class="form-group">
-                                    <label for="item_id" class="font-weight-bold text-dark h5">Items</label>
-                                    <select class="form-control form-control-lg value-add" name="item_id" id="item_id">
-                                        <option value="" disabled selected>Pilih Salah Satu</option>
-                                        @foreach($items as $item)
-                                        <option value="{{$item->id}}" {{$item->id == $sheet->item_id ? 'selected' : ''}}>{{$item->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            <input type="hidden" class="form-control form-control-lg value-add" name="item_id" id="item_id" value="{{$item->id}}">
+
                         </div>
                     </div>
                 </div>
@@ -60,7 +51,7 @@
                         <div class="accordion" id="accordion-content">
                             <div id="section-classic" class="shadow-sm rounded">
                                 <div id="headingOne" class="custom-control custom-radio py-4 px-5 ">
-                                    <input type="radio" id="customRadio1" name="content" value="classic" class="custom-control-input value-content" {{$sheet->content_type == 'classic' ? 'checked' : ''}}>
+                                    <input type="radio" id="customRadio1" name="content" value="classic" class="custom-control-input value-content">
                                     <label class="custom-control-label" for="customRadio1" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">Classic</label>
                                     <div style="font-size: 13px;" class="text-gray-600">
                                         Membuat isi konten layaknya anda membuat Dokumen menggunakan Aplikasi Word / Aplikasi Edit dokumen pada umum nya
@@ -68,7 +59,7 @@
 
                                 </div>
 
-                                <div id="collapseOne" class="collapse  {{$sheet->content_type == 'classic' ? 'show' : ''}}" aria-labelledby="headingOne" data-parent="#accordion-content">
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-content">
                                     <div class="card-body">
                                         <div class="row">
                                             <!-- <div class="col-md-6 col-12">
@@ -90,13 +81,8 @@
 
                                                     <!-- This container will become the editable. -->
                                                     <div id="editor">
-                                                        @if($sheet->content_type == 'classic')
-                                                        {!! $sheet->content !!}
-                                                        @else
                                                         <p>Silahkan isi konten disini.</p>
-                                                        @endif
                                                     </div>
-
                                                 </div>
                                                 <!-- The toolbar will be rendered in this container. -->
                                             </div>
@@ -108,14 +94,14 @@
                             <div id="section-advance" class="shadow-sm rounded mt-5">
 
                                 <div id="headingTwo" class="custom-control custom-radio py-4 px-5 ">
-                                    <input type="radio" id="customRadio2" name="content" {{$sheet->content_type == 'advance' ? 'checked' : ''}} class="custom-control-input value-content" value="advance">
+                                    <input type="radio" id="customRadio2" name="content" class="custom-control-input value-content" value="advance">
                                     <label class="custom-control-label" for="customRadio2" data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">Advance</label>
                                     <div style="font-size: 13px;" class="text-gray-600">
                                         Membuat isi dengan menggunakan layanan aplikasi pihak ketiga (Canva), yang dimana nanti link outputnya akan di pakai oleh Web Papan Digital
                                     </div>
 
                                 </div>
-                                <div id="collapseTwo" class="collapse  {{$sheet->content_type == 'advance' ? 'show' : ''}} pt-3" aria-labelledby="headingTwo" data-parent="#accordion-content">
+                                <div id="collapseTwo" class="collapse pt-3" aria-labelledby="headingTwo" data-parent="#accordion-content">
                                     <div class="card-body">
                                         <p>Silahkan buka website <a href="https://canva.com">Canva</a> dan buat desain, konten yang Anda mau</p>
 
@@ -124,7 +110,7 @@
                                             <div class="form-group row">
                                                 <label for="inputLink" class="col-sm-2 col-form-label">Link output canva</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" value="{{$sheet->content_type == 'advance' ? $sheet->content : ''}}" class="form-control" onkeyup="previewCanva(this)" onkeydown="previewCanva(this)" onchange="previewCanva(this)" id="inputLink">
+                                                    <input type="text" class="form-control" onkeyup="previewCanva(this)" onkeydown="previewCanva(this)" onchange="previewCanva(this)" id="inputLink">
                                                 </div>
                                             </div>
                                         </div>
@@ -139,14 +125,14 @@
                             <div id="section-gallery" class="shadow-sm rounded mt-5">
 
                                 <div id="headingThree" class="custom-control custom-radio py-4 px-5 ">
-                                    <input type="radio" id="customRadio3" name="content" {{$sheet->content_type == 'gallery' ? 'checked' : ''}} class="custom-control-input value-content" value="gallery">
+                                    <input type="radio" id="customRadio3" name="content" class="custom-control-input value-content" value="gallery">
                                     <label class="custom-control-label" for="customRadio3" data-toggle="collapse" data-target="#collapseThree" aria-controls="collapseThree">Gallery</label>
                                     <div style="font-size: 13px;" class="text-gray-600">
                                         Membuat konten yang berisi kumpulan foto-foto
                                     </div>
 
                                 </div>
-                                <div id="collapseThree" class="collapse {{$sheet->content_type == 'gallery' ? 'show' : ''}} pt-3" aria-labelledby="headingThree" data-parent="#accordion-content">
+                                <div id="collapseThree" class="collapse pt-3" aria-labelledby="headingThree" data-parent="#accordion-content">
                                     <div class="card-body">
                                         <div class="row">
                                             <!-- <div class="col-md-6 col-12">
@@ -172,14 +158,7 @@
                                                         Anda dapat memilih foto lebih dari satu
                                                     </div>
                                                     <div class="row mt-3 parent-gallery">
-                                                        @if($sheet->content_type == 'gallery')
-                                                        @foreach(json_decode($sheet->content) as $img)
-                                                        <div class="col-6 col-md-4 col-lg-3 py-2">
-                                                            <img src="/img/{{$img}}" alt="preview-img" class="img-fluid">
-                                                        </div>
 
-                                                        @endforeach
-                                                        @endif
                                                     </div>
                                                 </div>
 
@@ -193,8 +172,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{route('sheets.update',$sheet->slug)}}" method="post" id="formAdd" enctype="multipart/form-data">
-            @method('PUT')
+        <form action="{{route('sheets.store')}}" method="post" id="formAdd" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="data" id="data_presentation">
 
@@ -209,10 +187,12 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/decoupled-document/ckeditor.js"></script>
 
 <script>
-    let dataEditor = `{!! $sheet->content_type == 'classic' ? $sheet->content : '' !!}`;
+    let dataEditor = '';
 
     // variabel untuk mengecek apakah sudah ada gambar yang diupload saat memilih type content gallery
     let mustUpload = false;
+
+
 
     // let resultFiles = new FormData;
     DecoupledEditor

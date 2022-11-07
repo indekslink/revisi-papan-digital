@@ -1,12 +1,17 @@
 @extends('layouts')
 
-@section('heading')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-dark font-weight-bold">Dashboard</h1>
-</div>
+
+@section('content')
+<iframe src="https://infodesatikusan.com" allow="fullscreen" frameborder="0"></iframe>
 @endsection
 
 
-@section('content')
-
+@section('style')
+<style>
+    iframe {
+        width: calc(100% + 48px);
+        margin: -1.5rem 0 0 -24px;
+        height: calc(100vh - 85px);
+    }
+</style>
 @endsection

@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card shadow">
+        <div class="card shadow-sm">
             <div class="card-header">
                 <h4>Detail Item</h4>
             </div>
@@ -50,9 +50,10 @@
     </div>
 
     <div class="col-12 pt-5">
-        <div class="card shadow">
-            <div class="card-header">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>List Sheets</h4>
+                <a href="{{route('createSheet',$item->slug)}}" class="btn btn-primary btn-rounded-pill">Tambah Data</a>
             </div>
 
             <div class="card-body">

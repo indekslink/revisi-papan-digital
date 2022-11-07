@@ -21,6 +21,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/presentation/play', [PresentationController::class, 'play_content'])->name('play_content');
 
+
+Route::get('/items/{slug}/create-sheet', [ItemController::class, 'createSheet'])->name('createSheet');
 Route::resources([
     'items' => ItemController::class,
     'sheets' => SheetController::class,

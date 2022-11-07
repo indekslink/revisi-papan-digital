@@ -72,6 +72,13 @@ class SheetController extends Controller
     {
         $sheet = Sheet::whereSlug($slug)->firstOrFail();
         $items = Item::latest()->get();
+
+        // dd($sheet);
         return view('sheets.edit', compact('items', 'sheet'));
+    }
+
+    public function update(Request $request, $slug)
+    {
+        $sheet = Sheet::whereSlug($slug)->firstOrFail();
     }
 }

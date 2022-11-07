@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-lg-4 col-12 ">
-        <div class="card shadow">
+        <div class="card shadow-sm info-sheet">
             <div class="card-header">
                 <h4>Informasi Sheet</h4>
             </div>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="col-lg-8 col-12 pt-5 pt-lg-0">
-        <div class="card shadow">
+        <div class="card shadow-sm">
             <div class="card-header">
                 <h4>Preview Content</h4>
             </div>

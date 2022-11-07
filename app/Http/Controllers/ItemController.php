@@ -33,6 +33,11 @@ class ItemController extends Controller
 
         return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
+    public function createSheet($slugItem)
+    {
+        $item  = Item::whereSlug($slugItem)->firstOrFail();
+        return view('items.create_sheet', compact('item'));
+    }
 
     public function update(Request $request, $slug)
     {
