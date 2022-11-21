@@ -13,6 +13,22 @@
 
     <link rel="stylesheet" href="/visual-content/style.css">
     <style>
+        .bg-wallpaper {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+        }
+
+        .bg-wallpaper::after {
+            content: "";
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            inset: 0;
+        }
+
         .owl-carousel .owl-stage {
             display: flex;
         }
@@ -25,8 +41,8 @@
     </style>
 </head>
 
-<body>
-
+<body class="text-light">
+    <img src="/img/wallpaper/1.jpg" class="bg-wallpaper " alt="">
     <div id="parent-view" class="carousel slide carousel-dark" data-bs-ride="false">
         <div class="carousel-inner">
 
@@ -38,7 +54,9 @@
                 <div class="container-fluid content pt-5">
 
                     @if($item->content_type == 'classic')
-                    {!! $item->content !!}
+                    <div class="bg-dark p-4 rounded">
+                        {!! $item->content !!}
+                    </div>
                     @else
                     <div class="data-src" data-src="{{$item->content}}"></div>
 

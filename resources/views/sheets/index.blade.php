@@ -74,7 +74,12 @@
                         <td>{{$sheet->subtitle}}</td>
                         <!-- <td>{{$sheet->item->name}}</td> -->
                         <td class="text-center">
-                            <a href="{{route('sheets.show',$sheet->slug)}}" class="btn btn-sm btn-info ">Detail</a>
+                            <a href="{{route('sheets.edit',$sheet->slug)}}" class="btn mr-3 btn-warning btn-sm">Edit</a>
+                            <form class="d-inline-block" action="{{route('sheets.destroy',$sheet->slug)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn mr-3 btn-danger btn-sm">Hapus</button>
+                            </form>
 
                             @if($sheet->content_type == 'advance')
                             <a href="{{$sheet->content}}" class="btn btn-sm btn-primary" target="_blank">Preview</a>

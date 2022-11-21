@@ -148,17 +148,19 @@
         iframe.src = '';
         $(id).modal('hide')
     }
-    let numberExist = JSON.parse(' {!! $noUrut !!} ');
+    let numberExist = JSON.parse('{!! $noUrut !!}');
 
     const inputOrder = document.querySelectorAll('.input-order');
-
+    console.log(numberExist)
     inputOrder.forEach(input => {
 
-        input.addEventListener('keyup', function() {
+        input.addEventListener('input', function() {
 
             const val = input.value;
             if (val != '') {
                 cekNumber(val, input);
+            } else {
+                refreshNumber()
             }
         })
 
@@ -172,7 +174,7 @@
             if (i.value) {
 
                 numberExist.push({
-                    sheet_id: i.getAttribute('data-id'),
+                    sheet_id: Number(i.getAttribute('data-id')),
                     order: Number(i.value)
                 })
             }
@@ -190,7 +192,7 @@
         }
         refreshNumber()
 
-
+        console.log(numberExist);
 
     }
 

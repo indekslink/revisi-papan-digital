@@ -34,6 +34,7 @@ class SheetController extends Controller
         $data = json_decode($request->data);
         $content_type = $data->content_type;
 
+
         $sheet = new Sheet();
         $sheet->title = $data->title;
         $sheet->subtitle = $data->subtitle;
@@ -79,6 +80,81 @@ class SheetController extends Controller
 
     public function update(Request $request, $slug)
     {
+
         $sheet = Sheet::whereSlug($slug)->firstOrFail();
+
+        $data = json_decode($request->data);
+        $content_type = $data->content_type;
+
+        $sheet->title = $data->title;
+        $sheet->subtitle = $data->subtitle;
+        $sheet->item_id = $data->item_id;
+        $sheet->slug = Str::slug($data->title);
+
+        if ($sheet->content_type != $data->content_type) {
+
+
+            if ($sheet->content_type == 'gallery') {
+                foreach (json_decode($sheet->content) as $img) {
+                    unlink('img/' . $img);
+                }
+            }
+
+
+            if ($content_type == 'gallery') {
+                $images = $request->content_image;
+                $filesName = [];
+                foreach ($images as $file) {
+                    $extension =  $file->getClientOriginalExtension();
+                    $name = time() . rand() . '.' . $extension;
+                    $file->move('img/', $name);
+                    array_push($filesName, $name);
+                }
+                $sheet->content = json_encode($filesName);
+            } else {
+                $sheet->content = $data->content;
+            }
+        } else {
+            if ($request->has('content_image')) {
+                foreach (json_decode($sheet->content) as $img) {
+                    unlink('img/' . $img);
+                }
+
+                $images = $request->content_image;
+                $filesName = [];
+                foreach ($images as $file) {
+                    $extension =  $file->getClientOriginalExtension();
+                    $name = time() . rand() . '.' . $extension;
+                    $file->move('img/', $name);
+                    array_push($filesName, $name);
+                }
+                $sheet->content = json_encode($filesName);
+            } else {
+                if ($sheet->content_type != "gallery") {
+                    $sheet->content = $data->content;
+                }
+            }
+        }
+
+
+
+        $sheet->content_type = $data->content_type;
+
+        $sheet->save();
+        return redirect()->route('sheets.index')->with('success', 'Data berhasil diupdate');
+    }
+
+    public function destroy($slug)
+    {
+        $sheet = Sheet::whereSlug($slug)->firstOrFail();
+        if ($sheet->content_type == 'gallery') {
+            foreach (json_decode($sheet->content) as $img) {
+                unlink('img/' . $img);
+            }
+        }
+
+        // kurang bikin logikan , untuk mengecek relasi
+        $sheet->delete();
+        return redirect()->route('sheets.index')->with('success', 'Data berhasil dihapus');
     }
 }

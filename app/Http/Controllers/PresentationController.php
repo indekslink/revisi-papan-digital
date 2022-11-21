@@ -11,9 +11,31 @@ use App\Models\Sheet;
 
 class PresentationController extends Controller
 {
-    public function index()
+    public $presentation;
+    public function __construct()
     {
         $lists  = Presentation::orderBy('order', 'asc')->get();
+
+        $hasAdvanceList = collect($lists)->filter(function ($key) {
+            return $key->sheet->content_type == 'advance';
+        })->map(function ($key) {
+            return $key->id;
+        })->all();
+
+        if (count($hasAdvanceList) > 0) {
+            Presentation::whereIn('id', $hasAdvanceList)->delete();
+            $lists = collect($lists)->filter(function ($key) use ($hasAdvanceList) {
+                return !in_array($key->id, $hasAdvanceList);
+            });
+        }
+
+        $this->presentation = $lists;
+    }
+    public function index()
+    {
+
+        $lists = $this->presentation;
+
         return view('presentation.index', compact('lists'));
     }
 
@@ -31,10 +53,12 @@ class PresentationController extends Controller
                     'sheet_id' => $key->sheet_id,
                     'order' => $key->order,
                 ];
+                // return $key->order;
             });
         }
 
         $noUrut = json_encode($noUrut);
+        // dd($noUrut);
         // dd($noUrut);
         return view('presentation.create', compact('itemAndSheets', 'noUrut'));
     }
@@ -59,7 +83,7 @@ class PresentationController extends Controller
 
     public function play_content()
     {
-        $presentation = Presentation::with('sheet')->orderBy('order', 'asc')->get();
+        $presentation = $this->presentation;
         // dd($presentation);
         return view('presentation.play', compact('presentation'));
     }

@@ -22,11 +22,19 @@
             min-height: 100%;
             object-fit: contain;
         }
+
+        .bg-wallpaper {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 
-<body>
-
+<body class="text-light">
+    <img src="/img/wallpaper/1.jpg" class="bg-wallpaper" alt="">
     <div id="parent-view" class="carousel slide carousel-dark" data-bs-ride="false">
         <div class="carousel-inner">
             @foreach($presentation as $item)
@@ -38,7 +46,10 @@
                 <div class="container-fluid content pt-5">
 
                     @if($item->sheet->content_type == 'classic')
-                    {!! $item->sheet->content !!}
+                    <div class="bg-dark p-4 rounded">
+
+                        {!! $item->sheet->content !!}
+                    </div>
                     @else
                     <div class="data-src" data-src="{{$item->sheet->content}}"></div>
 
@@ -54,14 +65,14 @@
             </div>
             @endforeach
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#parent-view" data-bs-slide="prev">
+        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#parent-view" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#parent-view" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
-        </button>
+        </button> -->
     </div>
 
 

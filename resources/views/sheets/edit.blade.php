@@ -212,7 +212,7 @@
     let dataEditor = `{!! $sheet->content_type == 'classic' ? $sheet->content : '' !!}`;
 
     // variabel untuk mengecek apakah sudah ada gambar yang diupload saat memilih type content gallery
-    let mustUpload = false;
+    let mustUpload = (`{{ $sheet->content_type == 'gallery' ? 'true' : 'false' }}` ==    'true');
 
     // let resultFiles = new FormData;
     DecoupledEditor
